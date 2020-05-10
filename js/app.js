@@ -498,19 +498,20 @@ productList.addEventListener(`click`, function (event) {
         product.title = card.querySelector(`.card-title`).textContent;
         product.price = card.querySelector(`.card-current-price`).dataset.price;
 
-        appendCartRow(product);
+        if (!cartBody.classList.contains(`row`)) {
+            appendCartRow(product);
+        } else if (cartBody.classList.contains(`row`)) {
+            let input = document.getElementById('number');
+            console.log(input);
+            input.value += input.value;
+        }
 
         // event.target.disabled = true;   //////////////////// - ДЗ # 1;
         // event.target.textContent = `Товар добавлен`;  ////// - ДЗ # 1;
 
          // event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
     }
-    // if (!cartBody.classList.contains(`row`)) {
-    // } else if (cartBody.classList.contains(`row`)) {
-    //     let input = document.getElementById('number');
-    //     console.log(input);
-    //     input.value += input.value;
-    // }
+
 
 });
 
