@@ -527,10 +527,20 @@ function addToCart(object) {
             } else {
             }
 
+            for (let element of cartBody) {
+                if (element.dataset.id) {
+                   let number =  document.getElementById('number');
+                    number.value += value;
+                }
+
+            }
             // event.target.disabled = true;   //////////////////// - ДЗ # 1;
             // event.target.textContent = `Товар добавлен`;  ////// - ДЗ # 1;
 
            // event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
+
+           // let row = parents(event.target, )
+
             localStorage.cart = JSON.stringify(object);
         }
     }
