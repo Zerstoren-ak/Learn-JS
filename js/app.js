@@ -499,6 +499,11 @@ productList.addEventListener(`click`, function (event) {
         product.price = card.querySelector(`.card-current-price`).dataset.price;
 
         appendCartRow(product);
+
+        // event.target.disabled = true;   //////////////////// - ДЗ # 1;
+        // event.target.textContent = `Товар добавлен`;  ////// - ДЗ # 1;
+
+         // event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
     }
 });
 
@@ -512,7 +517,14 @@ function parents(node, _class) {
 }
 
 function appendCartRow(product) {
-    cartBody.insertAdjacentHTML(`beforeend`, createCartRow(product));
+    // if (!cartBody.classList.contains(`row`)) {
+        cartBody.insertAdjacentHTML(`beforeend`, createCartRow(product));
+    // } else if (cartBody.classList.contains(`row`)) {
+    //     let input = document.getElementById('number');
+    //     console.log(input);
+    //     input.value += input.value;
+    // }
+
 }
 
 cartBody.addEventListener("click", removeFromCart);
@@ -523,23 +535,16 @@ function addToCart(object) {
     return function (event) {
         if (event.target.classList.contains(`js-buy-btn`)) {
             if (!object[event.target.dataset.id]) {
-                object[event.target.dataset.id] = `1`;
+                object[event.target.dataset.id] = `1`; // это пока не имеет смысла
             } else {
             }
 
-            for (let element of cartBody) {
-                if (element.dataset.id) {
-                   let number =  document.getElementById('number');
-                    number.value += value;
-                }
+            // for (let element of cartBody) {
+            //     if (element.dataset.id) {
+            //        let number =  document.getElementById('number');
+            //         number.value += value;
+            //     }
 
-            }
-            // event.target.disabled = true;   //////////////////// - ДЗ # 1;
-            // event.target.textContent = `Товар добавлен`;  ////// - ДЗ # 1;
-
-           // event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
-
-           // let row = parents(event.target, )
 
             localStorage.cart = JSON.stringify(object);
         }
@@ -555,11 +560,11 @@ function removeFromCart (event) {
 }
 
 function createCartRow(product) {
-    return `<div class="row align-items-center py-3 cart-body-row" data-id="${product.id}">
+    return `<div class="row align-items-center py-3 cart-body-row" id="${product.id}">
 <div class="col-1 cart-body-order">&numero;</div>
 <div class="col-1 cart-body-img"><img class="img-fluid" src="${product.img}" alt="${product.title}"></div>
 <div class="col-4 cart-body-title"><h6>${product.title}</h6></div>
-<div class="col-1 cart-body-count"><input type="number" class="w-100" value="1"></div>
+<div class="col-1 cart-body-count"><input id="number" type="number" class="w-100" value="1"></div>
 <div class="col-2 cart-body-price" data-price="${product.price}">${formatter.format(product.price * USD)}</div>
 <div class="col-2 cart-body-sum">${formatter.format(product.price * USD)}</div>
 <div class="col-1 cart-body-remove"><button class="btn btn-secondary js-cart-remove-btn">&times;</button></div>
