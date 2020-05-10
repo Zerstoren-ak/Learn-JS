@@ -250,8 +250,8 @@ function createCardTemplate(product) {
         starTags += `<i class="${starClass}"></i>`;
     }
 
-    let html = `<div class="col my-3">
-          <div class="card ${availabilityColorClass}">
+    let html = `<div class="col my-3"">
+          <div class="card ${availabilityColorClass}" data-id="${product.id}">
             <img src="${product.img}" class="card-img-top" alt="${product.title}">
             <div class="card-body">
               <h5 class="card-title">${product.title}</h5>
@@ -493,6 +493,7 @@ productList.addEventListener(`click`, function (event) {
         const card = parents(buyBtn, `card`);
         const product = {};
 
+        product.id = card.dataset.id;
         product.img = card.querySelector(`img`).src;
         product.title = card.querySelector(`.card-title`).textContent;
         product.price = card.querySelector(`.card-current-price`).dataset.price;
@@ -503,7 +504,7 @@ productList.addEventListener(`click`, function (event) {
 
 
 function parents(node, _class) {
-    let current = node;         //Поиск указанного родителя от вложенного элемента
+    let current = node;         /////////// Поиск указанного родителя от вложенного элемента
     while (current.parentElement != null && !current.parentElement.classList.contains(_class)) {
         current = current.parentElement;
     }
@@ -514,34 +515,38 @@ function appendCartRow(product) {
     cartBody.insertAdjacentHTML(`beforeend`, createCartRow(product));
 }
 
-cartBody.addEventListener("click", removeCart);
-productList.addEventListener("click", addGlobalCart(itemsCart));
+cartBody.addEventListener("click", removeFromCart);
+productList.addEventListener("click", addToCart(itemsCart));
 
 
-function addGlobalCart(object) {
+function addToCart(object) {
     return function (event) {
         if (event.target.classList.contains(`js-buy-btn`)) {
             if (!object[event.target.dataset.id]) {
                 object[event.target.dataset.id] = `1`;
+            } else {
             }
-           event.target.disabled = true; // - ДЗ # 1;
-            alert(`Товар добавлен в корзину`);
+
+            // event.target.disabled = true;   //////////////////// - ДЗ # 1;
+            // event.target.textContent = `Товар добавлен`;  ////// - ДЗ # 1;
+
+           // event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
             localStorage.cart = JSON.stringify(object);
         }
     }
 }
 
-function removeCart (event) {
+function removeFromCart (event) {
     if (event.target.classList.contains(`js-cart-remove-btn`)) {
         const removeBtn = event.target;
         const row = parents(removeBtn, `row`);
-        row.innerHTML = ``;
+        row.remove();
     }
 }
 
 function createCartRow(product) {
-    return `<div class="row align-items-center py-3 cart-body-row">
-<div class="col-1 cart-body-order">1</div>
+    return `<div class="row align-items-center py-3 cart-body-row" data-id="${product.id}">
+<div class="col-1 cart-body-order">&numero;</div>
 <div class="col-1 cart-body-img"><img class="img-fluid" src="${product.img}" alt="${product.title}"></div>
 <div class="col-4 cart-body-title"><h6>${product.title}</h6></div>
 <div class="col-1 cart-body-count"><input type="number" class="w-100" value="1"></div>

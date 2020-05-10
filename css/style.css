@@ -1,5 +1,6 @@
 html {
     font-size: 13px;
+    scroll-behavior: smooth;
 }
 
 .card-old-price{
@@ -121,7 +122,31 @@ html {
     color: #000;
 }
 
-.disabled {
-    disabled: disabled;
+.cart-body {
+    counter-reset: section;
 }
 
+.cart-body-order {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cart-body-order::after {
+    padding-left: 3px;
+    counter-increment: section;
+    content: counter(section) ":";
+    font-family: inherit;
+    font-size: inherit;
+}
+
+button:disabled {
+    background-color: #939393 !important;
+    border-color: #939393 !important;
+}
+
+a,
+a:hover {
+    text-decoration: none;
+    color: inherit;
+}
