@@ -505,6 +505,13 @@ productList.addEventListener(`click`, function (event) {
 
          // event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
     }
+    // if (!cartBody.classList.contains(`row`)) {
+    // } else if (cartBody.classList.contains(`row`)) {
+    //     let input = document.getElementById('number');
+    //     console.log(input);
+    //     input.value += input.value;
+    // }
+
 });
 
 
@@ -517,14 +524,7 @@ function parents(node, _class) {
 }
 
 function appendCartRow(product) {
-    // if (!cartBody.classList.contains(`row`)) {
         cartBody.insertAdjacentHTML(`beforeend`, createCartRow(product));
-    // } else if (cartBody.classList.contains(`row`)) {
-    //     let input = document.getElementById('number');
-    //     console.log(input);
-    //     input.value += input.value;
-    // }
-
 }
 
 cartBody.addEventListener("click", removeFromCart);
