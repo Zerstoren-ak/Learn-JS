@@ -261,7 +261,7 @@ function createCardTemplate(product) {
               <p class="card-availability ${availabilityColorClass}">Наличие: ${availability}</p>
               ${product.sale && product.available ? `<p>${product.sale}</p>` : ""}
               <div class="buttons">
-                  <button data-id="${product.id}" class="btn btn-success mb-2 buy-btn js-buy-btn" ${availabilityActionSet}>Купить</button>
+                  <button data-id="${product.id}" class="btn btn-success mb-2 position-relative buy-btn js-buy-btn" ${availabilityActionSet}>Купить</button>
                   <button data-id="${product.id}" class="btn btn-clear ${wishList[product.id] ? 'fas' : 'far'} fa-heart wish-btn js-wish-btn"></button>
               </div>
               ${product.top && product.available !== 0 ? `<i class="fas fa-star top-star"></i>` : ""}
@@ -509,7 +509,7 @@ productList.addEventListener(`click`, function (event) {
         // event.target.disabled = true;   //////////////////// - ДЗ # 1;
         // event.target.textContent = `Товар добавлен`;  ////// - ДЗ # 1;
 
-         // event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
+         event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
     }
 
 
