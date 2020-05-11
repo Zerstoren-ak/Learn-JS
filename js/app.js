@@ -520,11 +520,11 @@ productList.addEventListener(`click`, function (event) {
         //event.target.disabled = true;   //////////////////// - ДЗ # 1;
         //event.target.textContent = `Товар добавлен`;  ////// - ДЗ # 1;
 
-<<<<<<< HEAD
-         event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
-=======
+
+         //event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
+
         //event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
->>>>>>> fc4efc46952aafacbd3388698af86ff323276740
+
     }
 
 
