@@ -584,13 +584,13 @@ function removeFromCart(event) {
 
 function createCartRow(product) {
     return `<div class="row align-items-center py-3 cart-row" data-id="${product.id}">
-<div class="col-1 cart-rpw-order">&numero;</div>
-<div class="col-1 cart-rpw-img"><img class="img-fluid" src="${product.img}" alt="${product.title}"></div>
-<div class="col-4 cart-rpw-title"><h6>${product.title}</h6></div>
-<div class="col-1 cart-rpw-count"><input type="number" class="w-100" value="1" min="1" max="99"></div>
-<div class="col-2 cart-rpw-price" data-price="${product.price}">${formatter.format(product.price * USD)}</div>
-<div class="col-2 cart-rpw-sum">${formatter.format(product.price * USD)}</div>
-<div class="col-1 cart-rpw-remove"><button class="btn btn-secondary js-cart-remove-btn">&times;</button></div>
+<div class="col-1 cart-row-order">&numero;</div>
+<div class="col-1 cart-row-img"><img class="img-fluid" src="${product.img}" alt="${product.title}"></div>
+<div class="col-4 cart-row-title"><h6>${product.title}</h6></div>
+<div class="col-1 cart-row-count"><input type="number" class="w-100" value="1" min="1" max="99"></div>
+<div class="col-2 cart-row-price" data-price="${product.price}">${formatter.format(product.price * USD)}</div>
+<div class="col-2 cart-row-sum">${formatter.format(product.price * USD)}</div>
+<div class="col-1 cart-row-remove"><button class="btn btn-secondary js-cart-remove-btn">&times;</button></div>
 </div>`;
 }
 
