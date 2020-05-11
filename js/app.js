@@ -195,24 +195,24 @@ function wishListAddRemove(object) {
     }
 }
 
-function lStorageCounter (products_array, counter_item) {
+function lStorageCounter(products_array, counter_item) {
     let value = Object.keys(products_array).length;
     if (value) {
         counter_item.innerHTML = value;
     } else {
         counter_item.innerHTML = "";
     }
-//   function wishCounter(products) {
-//     let counter = document.getElementById("wishCounter");
-//     let val = Object.keys(products).length;
-//     counter.innerHTML = val ? val : "";
+    //   function wishCounter(products) {
+    //     let counter = document.getElementById("wishCounter");
+    //     let val = Object.keys(products).length;
+    //     counter.innerHTML = val ? val : "";
 
-// function ff() {
-//     for (let element of Object.keys(products)) {
-//         console.log(Number.parseInt(element));
-//     }
-//     return new Array(element);
-// }
+    // function ff() {
+    //     for (let element of Object.keys(products)) {
+    //         console.log(Number.parseInt(element));
+    //     }
+    //     return new Array(element);
+    // }
 }
 
 // actualPrice(data);
@@ -415,7 +415,7 @@ function masonryChange(event) {
         const siblings = [...btn.parentNode.children].filter(function (child) {
             return child != btn;
         });
-     
+
         siblings.forEach((e) => {
             e.classList.remove("active");
         });
@@ -486,7 +486,17 @@ function changeInputs(filterValue) {
 
 const cartBody = document.getElementById(`cart-body`);
 const itemsCart = JSON.parse(localStorage.cart);
-
+cartBody.addEventListener('change', function (event) {
+    console.log(event.target.value);
+    if (event.target.value > 99) {
+        event.target.value = 99;
+        console.log('аяяяй');
+    } else if (event.target.value < 1) {
+        event.target.value = 1;
+        console.log('аяяяй');
+    }
+    changeRowSum(event.target);
+})
 productList.addEventListener(`click`, function (event) {
     if (event.target.classList.contains(`js-buy-btn`)) {
         const buyBtn = event.target;
@@ -498,22 +508,32 @@ productList.addEventListener(`click`, function (event) {
         product.title = card.querySelector(`.card-title`).textContent;
         product.price = card.querySelector(`.card-current-price`).dataset.price;
 
-        // if (!cartBody.classList.contains(`row`)) {
+
+        const cartRow = cartBody.querySelector(`[data-id="${product.id}"]`);
+        if (!cartRow) {
             appendCartRow(product);
-        // } else if (cartBody.classList.contains(`row`)) {
-        //     let input = document.getElementById('number');
-        //     console.log(input);
-        //     input.value += input.value;
-        // }
+        } else {
+            const input = cartRow.querySelector('input');
+            input.value = +input.value + 1;
+        }
 
-        // event.target.disabled = true;   //////////////////// - ДЗ # 1;
-        // event.target.textContent = `Товар добавлен`;  ////// - ДЗ # 1;
+        //event.target.disabled = true;   //////////////////// - ДЗ # 1;
+        //event.target.textContent = `Товар добавлен`;  ////// - ДЗ # 1;
 
-         // event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
+        //event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
     }
 
 
 });
+
+function changeRowSum(input) {
+    let value = input.value;
+    const cartRow = parents(input, 'cart-body-row');
+    const price = cartRow.querySelector('.cart-body-price').dataset.price;
+    const cartRowSum = cartRow.querySelector('.cart-body-sum');
+    let sum = value * price;
+    cartRowSum.textContent = formatter.format(sum*USD);
+}
 
 
 function parents(node, _class) {
@@ -525,20 +545,26 @@ function parents(node, _class) {
 }
 
 function appendCartRow(product) {
-        cartBody.insertAdjacentHTML(`beforeend`, createCartRow(product));
+    cartBody.insertAdjacentHTML(`beforeend`, createCartRow(product));
 }
 
 cartBody.addEventListener("click", removeFromCart);
-productList.addEventListener("click", addToCart(itemsCart));
+productList.addEventListener("click", addToCart(itemsCart, cartBody));
 
-
-function addToCart(object) {
+function addToCart(object,cart_body) {
     return function (event) {
         if (event.target.classList.contains(`js-buy-btn`)) {
-            if (!object[event.target.dataset.id]) {
-                object[event.target.dataset.id] = `1`; // это пока не имеет смысла
-            } else {
-            }
+            console.log('btn');
+            
+            let id =  event.target.dataset.id;
+
+            const cartRow = cart_body.querySelector(`[data-id="${id}"]`);
+            const cartRowInputValue = cartRow.querySelector('input').value;
+
+
+           
+            object[id] = cartRowInputValue; // имеет смысла
+            
 
             // for (let element of cartBody) {
             //     if (element.dataset.id) {
@@ -552,7 +578,7 @@ function addToCart(object) {
     }
 }
 
-function removeFromCart (event) {
+function removeFromCart(event) {
     if (event.target.classList.contains(`js-cart-remove-btn`)) {
         const removeBtn = event.target;
         const row = parents(removeBtn, `row`);
@@ -561,14 +587,15 @@ function removeFromCart (event) {
 }
 
 function createCartRow(product) {
-    return `<div class="row align-items-center py-3 cart-body-row" id="${product.id}">
+    return `<div class="row align-items-center py-3 cart-body-row" data-id="${product.id}">
 <div class="col-1 cart-body-order">&numero;</div>
 <div class="col-1 cart-body-img"><img class="img-fluid" src="${product.img}" alt="${product.title}"></div>
 <div class="col-4 cart-body-title"><h6>${product.title}</h6></div>
-<div class="col-1 cart-body-count"><input id="number" type="number" class="w-100" value="1"></div>
+<div class="col-1 cart-body-count"><input type="number" class="w-100" value="1" min="1" max="99"></div>
 <div class="col-2 cart-body-price" data-price="${product.price}">${formatter.format(product.price * USD)}</div>
 <div class="col-2 cart-body-sum">${formatter.format(product.price * USD)}</div>
 <div class="col-1 cart-body-remove"><button class="btn btn-secondary js-cart-remove-btn">&times;</button></div>
 </div>`;
 }
+
 
