@@ -498,13 +498,13 @@ productList.addEventListener(`click`, function (event) {
         product.title = card.querySelector(`.card-title`).textContent;
         product.price = card.querySelector(`.card-current-price`).dataset.price;
 
-        if (!cartBody.classList.contains(`row`)) {
+        // if (!cartBody.classList.contains(`row`)) {
             appendCartRow(product);
-        } else if (cartBody.classList.contains(`row`)) {
-            let input = document.getElementById('number');
-            console.log(input);
-            input.value += input.value;
-        }
+        // } else if (cartBody.classList.contains(`row`)) {
+        //     let input = document.getElementById('number');
+        //     console.log(input);
+        //     input.value += input.value;
+        // }
 
         // event.target.disabled = true;   //////////////////// - ДЗ # 1;
         // event.target.textContent = `Товар добавлен`;  ////// - ДЗ # 1;
