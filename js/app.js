@@ -485,7 +485,10 @@ function changeInputs(filterValue) {
 ////////////////////////////////////////////////////////////////////////////////////////
 
 const cartBody = document.getElementById(`cart-body`);
+const cartFooter = document.getElementById(`cartFooter`);
 const itemsCart = JSON.parse(localStorage.cart);
+
+cartBody.addEventListener("click", removeFromCart);
 
 cartBody.addEventListener('change', function (event) {
     //console.log(event.target.value);
@@ -497,7 +500,7 @@ cartBody.addEventListener('change', function (event) {
         console.log('аяяяй');
     }
     changeRowSum(event.target);
-    changeCartSum(event.target);
+    cartGlobalSum(event.target);
 });
 
 productList.addEventListener(`click`, function (event) {
@@ -524,7 +527,7 @@ productList.addEventListener(`click`, function (event) {
         //event.target.textContent = `Товар добавлен`;  ////// - ДЗ # 1;
 
         event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
-        changeCartSum();
+        cartGlobalSum();
     }
 
 });
@@ -537,7 +540,6 @@ function changeRowSum(input) {
     let sum = value * price; 
     cartRowSum.textContent = formatter.format(sum * USD);
     cartRowSum.dataset.price = `${sum}`;
-
 }
 
 
@@ -553,7 +555,6 @@ function appendCartRow(product) {
     cartBody.insertAdjacentHTML(`beforeend`, createCartRow(product));
 }
 
-cartBody.addEventListener("click", removeFromCart);
 productList.addEventListener("click", addToCart(itemsCart, cartBody));
 
 function addToCart(object,cart_body) {
@@ -575,7 +576,7 @@ function removeFromCart(event) {
         const removeBtn = event.target;
         const row = parents(removeBtn, `row`);
         row.remove();
-        changeCartSum();
+        cartGlobalSum();
     }
 }
 
@@ -591,42 +592,34 @@ function createCartRow(product) {
     </div>`;
 }
 
-// function changeCartSum(input) {
-//     const findInputSum = cartBody.querySelectorAll(`input[type="number"]`);
-//     console.log(findInputSum);
-//     for(let i = 0; i < findInputSum.length; i++) {
-//         i.value;
-//         console.log(i.value);
-//     }
-// }
-
-const cartFooter = document.getElementById(`cartFooter`);
-
-function changeCartSum() {
+function cartGlobalSum() {
     const findAllSum = cartBody.querySelectorAll(`.cart-row-sum`);
+    const findAllQuantity = cartBody.querySelectorAll(`input[type="number"]`);
 
-    const inputSum = cartFooter.querySelector(`.js-cart-price-sum`);
-    const inputQuantity = cartFooter.querySelector(`.js-cart-items-sum`);
-    let newSum;
+    const insertSum = cartFooter.querySelector(`.js-cart-price-sum`);
+    const insertItemQuantity = cartFooter.querySelector(`.js-cart-items-sum`);
+    const insertAllQuantity = cartFooter.querySelector(`.js-cart-items-quantity`);
+    
+    let newSum = 0;
     for(let i = 0; i < findAllSum.length; i++){
         const element = findAllSum[i];
-        newSum += element.dataset.price;
+        newSum += Number(element.dataset.price);
     }
-    console.log(newSum);
-    // findAllSum.forEach(e => (
-    //     newSum += e.dataset.price
-    // ));
+
+    let newQuantity = 0;
+    findAllQuantity.forEach(e => {
+        newQuantity += Number(e.value);
+    });
 
     if (findAllSum.length == 0) {
-        inputQuantity.textContent = ``;
-    }
-    else if (findAllSum.length == 1){
-        inputQuantity.textContent = `${findAllSum.length} товар`;
-    } else if (findAllSum.length > 1 && findAllSum.length <= 4){
-        inputQuantity.textContent = `${findAllSum.length} товара`;
+        insertItemQuantity.textContent = ``;
+        insertAllQuantity.textContent = ``;
+    } else if (findAllSum.length > 0 && findAllSum.length <= 4){
+        insertItemQuantity.textContent = `${findAllSum.length} вида товара`;
+        insertAllQuantity.textContent = `, в количестве ${newQuantity} шт.`;//эххх, падежиии...
     } else {
-        inputQuantity.textContent = `${findAllSum.length} товаров`;
+        insertItemQuantity.textContent = `${findAllSum.length} видов товаров`;
+        insertAllQuantity.textContent = `, в количестве ${newQuantity} шт.`;
     }
-
-    inputSum.textContent = formatter.format (newSum * USD);
+    insertSum.textContent = formatter.format (newSum * USD);
 }
