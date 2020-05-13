@@ -126,13 +126,13 @@ html {
     counter-reset: section;
 }
 
-.cart-body-order {
+.cart-row-order {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
-.cart-body-order::after {
+.cart-row-order::after {
     padding-left: 3px;
     counter-increment: section;
     content: counter(section) ":";

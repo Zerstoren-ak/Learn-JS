@@ -497,8 +497,7 @@ cartBody.addEventListener('change', function (event) {
         console.log('аяяяй');
     }
     changeRowSum(event.target);
-  //  changeCartSum(event.target);
-    console.log(cartBody.querySelectorAll(`.cart-row-sum`));
+    changeCartSum(event.target);
 });
 
 productList.addEventListener(`click`, function (event) {
@@ -524,7 +523,8 @@ productList.addEventListener(`click`, function (event) {
         //event.target.disabled = true;   //////////////////// - ДЗ # 1;
         //event.target.textContent = `Товар добавлен`;  ////// - ДЗ # 1;
 
-         event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
+        event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
+        changeCartSum();
     }
 
 });
@@ -537,6 +537,7 @@ function changeRowSum(input) {
     let sum = value * price; 
     cartRowSum.textContent = formatter.format(sum * USD);
     cartRowSum.dataset.price = `${sum}`;
+
 }
 
 
@@ -574,6 +575,7 @@ function removeFromCart(event) {
         const removeBtn = event.target;
         const row = parents(removeBtn, `row`);
         row.remove();
+        changeCartSum();
     }
 }
 
@@ -598,19 +600,33 @@ function createCartRow(product) {
 //     }
 // }
 
-function changeCartSum(input) {
+const cartFooter = document.getElementById(`cartFooter`);
+
+function changeCartSum() {
     const findAllSum = cartBody.querySelectorAll(`.cart-row-sum`);
 
-    const inputSum = cartBody.querySelector(`.js-cart-price-sum`);
-    const inputQuantity = cartBody.querySelector(`.js-cart-items-sum`);
-    for(let i = 0; i <= findAllSum.length; i++){
-        let sum = i.dataset.price;
+    const inputSum = cartFooter.querySelector(`.js-cart-price-sum`);
+    const inputQuantity = cartFooter.querySelector(`.js-cart-items-sum`);
+    let newSum;
+    for(let i = 0; i < findAllSum.length; i++){
+        const element = findAllSum[i];
+        newSum += element.dataset.price;
     }
+    console.log(newSum);
     // findAllSum.forEach(e => (
-    //     sum += e.dataset.price
+    //     newSum += e.dataset.price
     // ));
 
-    inputQuantity.textContent = `${findAllSum.length}`;
-    inputSum.textContent = formatter.format(sum * USD);
+    if (findAllSum.length == 0) {
+        inputQuantity.textContent = ``;
+    }
+    else if (findAllSum.length == 1){
+        inputQuantity.textContent = `${findAllSum.length} товар`;
+    } else if (findAllSum.length > 1 && findAllSum.length <= 4){
+        inputQuantity.textContent = `${findAllSum.length} товара`;
+    } else {
+        inputQuantity.textContent = `${findAllSum.length} товаров`;
+    }
 
+    inputSum.textContent = formatter.format (newSum * USD);
 }
