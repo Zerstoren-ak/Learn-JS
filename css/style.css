@@ -150,3 +150,8 @@ a:hover {
     text-decoration: none;
     color: inherit;
 }
+
+
+.cart-footer input {
+    width: 100%;
+}

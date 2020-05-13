@@ -191,16 +191,16 @@ function wishListAddRemove(object) {
             }
             localStorage.wishlist = JSON.stringify(object);
         }
-        lStorageCounter(object, wishCounterItem);
+        lengthCounter(object, wishCounterItem);
     }
 }
 
-function lStorageCounter(products_array, counter_item) {
-    let value = Object.keys(products_array).length;
+function lengthCounter(object, counter_item) {
+    let value = Object.keys(object).length;
     if (value) {
-        counter_item.innerHTML = value;
+        counter_item.textContent = value;
     } else {
-        counter_item.innerHTML = "";
+        counter_item.textContent = ``;
     }
     //   function wishCounter(products) {
     //     let counter = document.getElementById("wishCounter");
@@ -219,7 +219,7 @@ function lStorageCounter(products_array, counter_item) {
 // appendCardsToList(data);
 sortByDefault(data);
 changeInputs(minMax(data));
-lStorageCounter(wishList, wishCounterItem);
+lengthCounter(wishList, wishCounterItem);
 
 function createCardTemplate(product) {
     let availability = ``;
@@ -488,7 +488,7 @@ const cartBody = document.getElementById(`cart-body`);
 const itemsCart = JSON.parse(localStorage.cart);
 
 cartBody.addEventListener('change', function (event) {
-    console.log(event.target.value);
+    //console.log(event.target.value);
     if (event.target.value > 99) {
         event.target.value = 99;
         console.log('аяяяй');
@@ -497,6 +497,8 @@ cartBody.addEventListener('change', function (event) {
         console.log('аяяяй');
     }
     changeRowSum(event.target);
+  //  changeCartSum(event.target);
+    console.log(cartBody.querySelectorAll(`.cart-row-sum`));
 });
 
 productList.addEventListener(`click`, function (event) {
@@ -509,7 +511,6 @@ productList.addEventListener(`click`, function (event) {
         product.img = card.querySelector(`img`).src;
         product.title = card.querySelector(`.card-title`).textContent;
         product.price = card.querySelector(`.card-current-price`).dataset.price;
-
 
         // const cartRow = cartBody.querySelector(`[data-id="${product.id}"]`);
         // if (!cartRow) {
@@ -526,7 +527,6 @@ productList.addEventListener(`click`, function (event) {
          event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
     }
 
-
 });
 
 function changeRowSum(input) {
@@ -534,8 +534,9 @@ function changeRowSum(input) {
     const cartRow = parents(input, 'cart-row');
     const price = cartRow.querySelector('.cart-row-price').dataset.price;
     const cartRowSum = cartRow.querySelector('.cart-row-sum');
-    let sum = value * price;
+    let sum = value * price; 
     cartRowSum.textContent = formatter.format(sum * USD);
+    cartRowSum.dataset.price = `${sum}`;
 }
 
 
@@ -583,9 +584,33 @@ function createCartRow(product) {
     <div class="col-4 cart-row-title"><h6>${product.title}</h6></div>
     <div class="col-1 cart-row-count"><input type="number" class="w-100" value="1" min="1" max="99"></div>
     <div class="col-2 cart-row-price" data-price="${product.price}">${formatter.format(product.price * USD)}</div>
-    <div class="col-2 cart-row-sum">${formatter.format(product.price * USD)}</div>
+    <div class="col-2 cart-row-sum" data-price="${product.price}">${formatter.format(product.price * USD)}</div>
     <div class="col-1 cart-row-remove"><button class="btn btn-secondary js-cart-remove-btn">&times;</button></div>
     </div>`;
 }
 
+// function changeCartSum(input) {
+//     const findInputSum = cartBody.querySelectorAll(`input[type="number"]`);
+//     console.log(findInputSum);
+//     for(let i = 0; i < findInputSum.length; i++) {
+//         i.value;
+//         console.log(i.value);
+//     }
+// }
 
+function changeCartSum(input) {
+    const findAllSum = cartBody.querySelectorAll(`.cart-row-sum`);
+
+    const inputSum = cartBody.querySelector(`.js-cart-price-sum`);
+    const inputQuantity = cartBody.querySelector(`.js-cart-items-sum`);
+    for(let i = 0; i <= findAllSum.length; i++){
+        let sum = i.dataset.price;
+    }
+    // findAllSum.forEach(e => (
+    //     sum += e.dataset.price
+    // ));
+
+    inputQuantity.textContent = `${findAllSum.length}`;
+    inputSum.textContent = formatter.format(sum * USD);
+
+}
