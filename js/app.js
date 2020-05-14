@@ -408,9 +408,23 @@ function stock(products) {
     };
 }
 
+function findSiblings(node, classOne, classTwo) {
+    const element = node;
+    if (element.classList.contains(classOne)) {  //////////поиск соседей на том же уровне вложенности Vanilla
+        element.classList.add(classTwo);
+        const siblings = [...element.parentNode.children].filter(function (child) {
+            return child != element;
+        });
+        siblings.forEach((el) => {
+            el.classList.remove(classTwo);
+        });
+    }
+}
+
+
 function masonryChange(event) {
     const btn = event.target;
-    if (btn.classList.contains("js-masonry-btn")) {   //поиск соседей на том же уровне вложенности Vanilla
+    if (btn.classList.contains("js-masonry-btn")) {
         btn.classList.add("active");
         const siblings = [...btn.parentNode.children].filter(function (child) {
             return child != btn;
@@ -526,7 +540,11 @@ productList.addEventListener(`click`, function (event) {
         //event.target.disabled = true;   //////////////////// - ДЗ # 1;
         //event.target.textContent = `Товар добавлен`;  ////// - ДЗ # 1;
 
-        event.target.innerHTML = `<a href="#cart-body" class="stretched-link">Перейти в корзину</a>`;  /// - ДЗ # 2;
+
+
+        event.target.innerHTML = `<a href="#cart-body" class="btn btn-primary ml-0 stretched-link">Перейти в корзину</a>`;
+        event.target.classList.remove(`btn`, `btn-success`);
+        event.target.classList.add(`border-0`, `p-0`);/// - ДЗ # 2;
         cartGlobalSum();
     }
 
@@ -632,6 +650,8 @@ function buyBtnRestore(event) {
      findBtn.forEach(element => {
         if(findCartRowId == element.dataset.id) {
             element.textContent = `Купить`;
+            element.classList.remove(`border-0`, `p-0`);
+            element.classList.add(`btn`, `btn-success`);
         }
      })
 }
