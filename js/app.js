@@ -577,6 +577,7 @@ function removeFromCart(event) {
         const row = parents(removeBtn, `row`);
         row.remove();
         cartGlobalSum();
+        buyBtnRestore(event);
     }
 }
 
@@ -623,3 +624,15 @@ function cartGlobalSum() {
     }
     insertSum.textContent = formatter.format (newSum * USD);
 }
+
+function buyBtnRestore(event) {
+     const findBtn =  productList.querySelectorAll('.js-buy-btn');
+     const findCartRowId = parents(event.target, `row`).dataset.id;
+
+     findBtn.forEach(element => {
+        if(findCartRowId == element.dataset.id) {
+            element.textContent = `Купить`;
+        }
+     })
+}
+
