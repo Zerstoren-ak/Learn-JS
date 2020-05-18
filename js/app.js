@@ -1,5 +1,19 @@
 "use strict";
 
+async function getCurrency() {
+    let response = await fetch(`https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5`);
+    let currencyList = await response.json();
+    let currency = 0;
+    currencyList.forEach(element =>{
+        if (element.ccy = `USD`) {
+            currency = element.buy;
+        }
+    });
+    return currency;
+}
+
+//let USD = getCurrency();
+
 let USD = 27.5;
 
 const formatter = new Intl.NumberFormat("ua", {
