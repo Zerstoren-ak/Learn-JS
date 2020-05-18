@@ -3,6 +3,10 @@ html {
     scroll-behavior: smooth;
 }
 
+.card p {
+    margin-bottom: 2px;
+}
+
 .card-old-price{
     text-decoration: line-through;
     color: #ccc;

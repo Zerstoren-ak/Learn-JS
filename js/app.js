@@ -408,17 +408,10 @@ function stock(products) {
     };
 }
 
-function findSiblings(node, classOne, classTwo) {
-    const element = node;
-    if (element.classList.contains(classOne)) {  //////////поиск соседей на том же уровне вложенности Vanilla
-        element.classList.add(classTwo);
-        const siblings = [...element.parentNode.children].filter(function (child) {
-            return child != element;
-        });
-        siblings.forEach((el) => {
-            el.classList.remove(classTwo);
-        });
-    }
+function findSiblings(node) {
+    return [...node.parentNode.children].filter(function (child) {
+        return child != node; //////////поиск соседей на том же уровне вложенности Vanilla
+    });
 }
 
 
@@ -426,10 +419,7 @@ function masonryChange(event) {
     const btn = event.target;
     if (btn.classList.contains("js-masonry-btn")) {
         btn.classList.add("active");
-        const siblings = [...btn.parentNode.children].filter(function (child) {
-            return child != btn;
-        });
-
+        const siblings = findSiblings(btn);
         siblings.forEach((e) => {
             e.classList.remove("active");
         });
@@ -592,7 +582,8 @@ function addToCart(object,cart_body) {
 function removeFromCart(event) {
     if (event.target.classList.contains(`js-cart-remove-btn`)) {
         const removeBtn = event.target;
-        const row = parents(removeBtn, `row`);
+        // const row = parents(removeBtn, `row`);
+        const row = removeBtn.closest(`.row`);
         row.remove();
         cartGlobalSum();
         buyBtnRestore(event);
@@ -644,15 +635,11 @@ function cartGlobalSum() {
 }
 
 function buyBtnRestore(event) {
-     const findBtn =  productList.querySelectorAll('.js-buy-btn');
      const findCartRowId = parents(event.target, `row`).dataset.id;
+     const findBtn =  productList.querySelector(`.js-buy-btn[data-id="${findCartRowId}"]`);
 
-     findBtn.forEach(element => {
-        if(findCartRowId == element.dataset.id) {
-            element.textContent = `Купить`;
-            element.classList.remove(`border-0`, `p-0`);
-            element.classList.add(`btn`, `btn-success`);
-        }
-     })
+        findBtn.textContent = `Купить`;
+        findBtn.classList.remove(`border-0`, `p-0`);
+        findBtn.classList.add(`btn`, `btn-success`);
 }
 
