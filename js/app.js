@@ -12,7 +12,7 @@ async function getCurrency() {
     return currency;
 }
 
-//let USD = getCurrency();
+// let USD = getCurrency();
 
 let USD = 27.5;
 
