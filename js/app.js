@@ -5,7 +5,7 @@ async function getCurrency() {
     let currencyList = await response.json();
     let currency = 0;
     currencyList.forEach(element =>{
-        if (element.ccy = `USD`) {
+        if (element[ccy] == `USD`) {
             currency = element.buy;
         }
     });
@@ -381,9 +381,8 @@ function filtered(products) {
         let minValue = data.get("min") / USD;
         let maxValue = data.get("max") / USD;
         productList.innerHTML = "";
-        appendCardsToList(
-            products.filter(
-                filterBy({
+        appendCardsToList(products.filter(
+            filterBy({
                     type: "price",
                     min: minValue,
                     max: maxValue,
