@@ -656,50 +656,6 @@ function buyBtnRestore(event) {
         findBtn.classList.add(`btn`, `btn-success`);
 }
 
-const mySort = document.getElementById(`my-sort`);
-
-let someArray = [
-    {
-        name: `Oleg`,
-        age: 21,
-    },
-    {
-        name: `Dima`,
-        age: 12,
-    },
-    {
-        name: `Vasya`,
-        age: 24,
-    },
-    {
-        name: `Petya`,
-        age: 36,
-    },
-];
-console.log(someArray);
-
-// function sortBy(options) {
-//     return function (a, b) {
-//         if (options === `increase`) {
-//             return a.age - b.age
-//         } else if (options === `decrease`) {
-//             return b.age - a.age
-//         }
-//     }
-// }
-
-mySort.addEventListener('change', function(e){
-    someArray.sort(function(a, b) {
-        if (e.target.value === `increase`) {
-            return a.age - b.age
-        } else if (e.target.value === `decrease`) {
-            return b.age - a.age
-        }
-    });
-    console.log(someArray);
-});
-
-
 
 
 
