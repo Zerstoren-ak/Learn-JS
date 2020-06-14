@@ -637,8 +637,11 @@ function cartGlobalSum() {
     if (findAllSum.length == 0) {
         insertItemQuantity.textContent = ``;
         insertAllQuantity.textContent = ``;
+    } else if (findAllSum.length == 1){
+        insertItemQuantity.textContent = `${findAllSum.length} вид товара`;
+        insertAllQuantity.textContent = `, в количестве ${newQuantity} шт.`;//эххх, падежиии...
     } else if (findAllSum.length > 0 && findAllSum.length <= 4){
-        insertItemQuantity.textContent = `${findAllSum.length} вида товара`;
+        insertItemQuantity.textContent = `${findAllSum.length} вида товаров`;
         insertAllQuantity.textContent = `, в количестве ${newQuantity} шт.`;//эххх, падежиии...
     } else {
         insertItemQuantity.textContent = `${findAllSum.length} видов товаров`;
@@ -655,9 +658,6 @@ function buyBtnRestore(event) {
         findBtn.classList.remove(`border-0`, `p-0`);
         findBtn.classList.add(`btn`, `btn-success`);
 }
-
-
-
 
 
 
